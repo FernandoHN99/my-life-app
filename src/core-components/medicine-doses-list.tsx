@@ -1,5 +1,5 @@
 import MedicineDoseItem from '@/core-components/medicine-dose-item'
-import { type DayItem, getDaysOfMonth } from '@/helpers/utils'
+import type { DayItem } from '@/helpers/utils'
 import useMedicine from '@/hooks/use-medicine'
 import type { Medicine } from '@/models/medicine'
 
@@ -27,6 +27,7 @@ export default function MedicineDosesList({
                doseUnit={medicineSelected.unit}
                basedAmount={medicineSelected.basedAmounts[0]}
                baseDate={day.date}
+               isToday={day.isToday}
                totalDosePerDay={getTotalDoseByDay(
                   medicineSelected.id,
                   day.date,
