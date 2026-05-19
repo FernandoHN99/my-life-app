@@ -40,7 +40,7 @@ export function MedicineFormSheet({
 
    return (
       <Sheet open={open} onOpenChange={onOpenChange}>
-         <SheetContent side="right" className="w-full sm:w-[400px]">
+         <SheetContent side="right" className="w-full sm:w-96">
             <div className="flex flex-col gap-6 p-8">
                <SheetHeader>
                   <SheetTitle>Novo medicamento</SheetTitle>

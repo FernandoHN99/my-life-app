@@ -8,7 +8,7 @@ export default function SidebarHeaderComponent() {
             <div className="flex size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                <PersonStanding className="size-4" />
             </div>
-            <span className="font-semibold tracking-wide text-sidebar-foreground">
+            <span className="font-semibold tracking-tight text-sidebar-foreground">
                My Life App
             </span>
          </div>

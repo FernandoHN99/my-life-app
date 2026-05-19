@@ -92,6 +92,10 @@ Load the relevant skill via the Skill tool before starting the task when the wor
 | `react-render-optimization` | Diagnosing or fixing unnecessary re-renders, memoization decisions |
 | `react-design-patterns-browser-optimization` | Complex UI interactions, heavy client-side rendering, loading states |
 
+## Critical rules
+
+- **NEVER commit without explicit user request.** Complete the work, then ask: "Quer que eu faça o commit?" — never assume.
+
 ## Your workflow for every task
 
 1. **Load** the relevant skill(s) listed above if the task matches.

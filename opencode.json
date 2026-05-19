@@ -1,8 +1,6 @@
 {
    "$schema": "https://opencode.ai/config.json",
-   "instructions": [
-      "docs/conventions.md"
-   ],
+   "instructions": ["docs/conventions.md"],
    "permission": {
       "bash": {
          "pnpm dev*": "allow",

@@ -23,7 +23,9 @@ function PageHealth() {
 
    return (
       <Container as="article" className="py-6 flex flex-col gap-6">
-         <h1 className="text-2xl self-center font-semibold tracking-tight">Saúde</h1>
+         <h1 className="text-2xl self-center font-semibold tracking-tight">
+            Saúde
+         </h1>
          <div className="flex flex-wrap items-center gap-2">
             {medicines.length === 0 ? (
                <p className="text-sm text-muted-foreground">
