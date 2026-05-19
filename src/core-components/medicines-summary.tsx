@@ -28,7 +28,7 @@ export default function MedicinesSummary({
             <ChevronLeft className="size-4" />
          </Button>
 
-         <strong className="text-sm font-medium">
+         <strong className="text-lg font-semibold first-letter:uppercase">
             {currentDate.toLocaleDateString('pt-BR', {
                month: 'long',
                year: 'numeric',

@@ -1,6 +1,12 @@
-import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from '@/components/ui/select'
 import {
    Sheet,
    SheetContent,
@@ -8,7 +14,7 @@ import {
    SheetHeader,
    SheetTitle,
 } from '@/components/ui/sheet'
-import useMedicine from '@/hooks/use-medicine'
+import { useMedicineForm } from '@/hooks/use-medicine-form'
 
 interface MedicineFormSheetProps {
    open: boolean
@@ -21,26 +27,16 @@ export function MedicineFormSheet({
    onOpenChange,
    onCreated,
 }: MedicineFormSheetProps) {
-   const { createMedicine } = useMedicine()
-   const [name, setName] = React.useState('')
-   const [unit, setUnit] = React.useState('')
-   const [basedAmount, setBasedAmount] = React.useState('')
-
-   const handleSubmit = () => {
-      if (
-         !name.trim() ||
-         !unit.trim() ||
-         Number.isNaN(parseFloat(basedAmount))
-      ) {
-         return
-      }
-      createMedicine(name.trim(), unit.trim(), parseFloat(basedAmount))
-      setName('')
-      setUnit('')
-      setBasedAmount('')
-      onOpenChange(false)
-      onCreated()
-   }
+   const {
+      name,
+      setName,
+      unit,
+      setUnit,
+      basedAmount,
+      setBasedAmount,
+      isValid,
+      submit,
+   } = useMedicineForm({ onCreated, onClose: () => onOpenChange(false) })
 
    return (
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -73,12 +69,15 @@ export function MedicineFormSheet({
                   >
                      Unidade
                   </label>
-                  <Input
-                     id="medicine-unit"
-                     placeholder="Ex: mg"
-                     value={unit}
-                     onChange={(e) => setUnit(e.target.value)}
-                  />
+                  <Select value={unit} onValueChange={setUnit}>
+                     <SelectTrigger id="medicine-unit">
+                        <SelectValue />
+                     </SelectTrigger>
+                     <SelectContent position="popper" align="start">
+                        <SelectItem value="mg">Miligramas (mg)</SelectItem>
+                        <SelectItem value="g">Gramas (g)</SelectItem>
+                     </SelectContent>
+                  </Select>
                </div>
                <div className="flex flex-col gap-1.5">
                   <label
@@ -92,6 +91,7 @@ export function MedicineFormSheet({
                      type="number"
                      step="0.01"
                      placeholder="Ex: 0.5"
+                     min="0"
                      value={basedAmount}
                      onChange={(e) => setBasedAmount(e.target.value)}
                   />
@@ -100,7 +100,8 @@ export function MedicineFormSheet({
                   variant="default"
                   className="w-full mt-2"
                   type="submit"
-                  onClick={handleSubmit}
+                  disabled={!isValid}
+                  onClick={submit}
                >
                   Salvar medicamento
                </Button>

@@ -1,5 +1,11 @@
 import { useLocalStorage } from 'usehooks-ts'
-import { generateRandomId, isSameDay } from '@/helpers/utils'
+import {
+   type DayItem,
+   formatDate,
+   generateRandomId,
+   getConsecutiveDaysStreak,
+   isSameDay,
+} from '@/helpers/utils'
 import { type Dose, MEDICINE_KEY, type Medicine } from '@/models/medicine'
 
 export default function useMedicine() {
@@ -73,6 +79,31 @@ export default function useMedicine() {
       )
    }
 
+   function getMonthlySummary(id: string, baseDate: Date, days?: DayItem[]) {
+      const year = baseDate.getFullYear()
+      const month = baseDate.getMonth()
+
+      const medicine = medicines.find((m) => m.id === id)
+      if (!medicine) return { total: 0, daysWithDose: 0, consecutiveStreak: 0 }
+
+      const monthDoses = medicine.doses.filter((d) => {
+         const date = new Date(d.usedDate)
+         return date.getFullYear() === year && date.getMonth() === month
+      })
+
+      const total = monthDoses.reduce((acc, d) => acc + d.amount, 0)
+      const daysWithDose = new Set(
+         monthDoses.map((d) => formatDate(new Date(d.usedDate))),
+      ).size
+
+      const dosedDates = monthDoses.map((d) => new Date(d.usedDate))
+      const consecutiveStreak = days
+         ? getConsecutiveDaysStreak(days, dosedDates)
+         : 0
+
+      return { total, daysWithDose, consecutiveStreak }
+   }
+
    function getTotalDoseByDay(id: string, baseDate: Date) {
       const year = baseDate.getFullYear()
       const month = baseDate.getMonth()
@@ -100,5 +131,6 @@ export default function useMedicine() {
       removeLastDoseFromDay,
       getTotalDoseByDay,
       getTotalDoseByMonth,
+      getMonthlySummary,
    }
 }
