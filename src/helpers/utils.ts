@@ -44,3 +44,27 @@ export function isSameDay(d1: Date, d2: Date) {
       d1.getDate() === d2.getDate()
    )
 }
+
+export function getConsecutiveDaysStreak(
+   days: DayItem[],
+   dosedDates: Date[],
+): number {
+   if (days.length === 0 || dosedDates.length === 0) return 0
+
+   const dosedDateSet = new Set(dosedDates.map((date) => formatDate(date)))
+
+   let maxStreak = 0
+   let currentStreak = 0
+
+   for (const day of days) {
+      const formattedDay = formatDate(day.date)
+      if (dosedDateSet.has(formattedDay)) {
+         currentStreak += 1
+         maxStreak = Math.max(maxStreak, currentStreak)
+      } else {
+         currentStreak = 0
+      }
+   }
+
+   return maxStreak
+}

@@ -12,7 +12,8 @@ dist
 dist-ssr
 *.local
 
-# Claude Code
+# OpenCode / Claude Code local settings
+.opencode/settings.local.json
 .claude/settings.local.json
 
 # Editor directories and files

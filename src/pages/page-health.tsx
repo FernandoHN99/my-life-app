@@ -1,33 +1,33 @@
 import { Plus } from 'lucide-react'
-import React from 'react'
 import Container from '@/components/container'
 import { Button } from '@/components/ui/button'
 import MedicineDosesList from '@/core-components/medicine-doses-list'
 import { MedicineFormSheet } from '@/core-components/medicine-form-sheet'
+import { MedicineMonthlySummary } from '@/core-components/medicine-monthly-summary'
 import MedicinesSummary from '@/core-components/medicines-summary'
-import { getDaysOfMonth } from '@/helpers/utils'
-import useMedicine from '@/hooks/use-medicine'
+import { useHealthPage } from '@/hooks/use-health-page'
 
 function PageHealth() {
-   const [currentDate, setCurrentDate] = React.useState(new Date())
-   const [selectedMedicineId, setSelectedMedicineId] = React.useState<
-      string | null
-   >(null)
-   const [isSheetOpen, setIsSheetOpen] = React.useState(false)
-   const days = getDaysOfMonth(currentDate)
-   const { medicines } = useMedicine()
-
-   const medicineSelected = selectedMedicineId
-      ? (medicines.find((m) => m.id === selectedMedicineId) ?? null)
-      : (medicines[medicines.length - 1] ?? null)
+   const {
+      currentDate,
+      setCurrentDate,
+      setSelectedMedicineId,
+      isSheetOpen,
+      setIsSheetOpen,
+      medicines,
+      days,
+      medicineSelected,
+      monthlySummary,
+      handleMedicineCreated,
+   } = useHealthPage()
 
    return (
       <Container as="article" className="py-6 flex flex-col gap-6">
-         <h1 className="text-xl font-semibold tracking-tight">Saúde</h1>
-         <div className="flex items-center gap-2">
+         <h1 className="text-2xl self-center font-semibold tracking-tight">Saúde</h1>
+         <div className="flex flex-wrap items-center gap-2">
             {medicines.length === 0 ? (
                <p className="text-sm text-muted-foreground">
-                  Nenhum medicamento cadastrado.
+                  Cadastre um medicamento.
                </p>
             ) : (
                medicines.map((med) => {
@@ -58,10 +58,21 @@ function PageHealth() {
                Novo
             </Button>
          </div>
-         <MedicinesSummary
-            currentDate={currentDate}
-            onChangeMonth={setCurrentDate}
-         />
+         {medicineSelected && (
+            <>
+               <MedicinesSummary
+                  currentDate={currentDate}
+                  onChangeMonth={setCurrentDate}
+               />
+               <MedicineMonthlySummary
+                  total={monthlySummary.total}
+                  daysWithDose={monthlySummary.daysWithDose}
+                  consecutiveStreak={monthlySummary.consecutiveStreak}
+                  daysInMonth={monthlySummary.daysInMonth}
+                  unit={medicineSelected.unit}
+               />
+            </>
+         )}
          {medicineSelected && (
             <MedicineDosesList
                days={days}
@@ -71,7 +82,7 @@ function PageHealth() {
          <MedicineFormSheet
             open={isSheetOpen}
             onOpenChange={setIsSheetOpen}
-            onCreated={() => setSelectedMedicineId(null)}
+            onCreated={handleMedicineCreated}
          />
       </Container>
    )

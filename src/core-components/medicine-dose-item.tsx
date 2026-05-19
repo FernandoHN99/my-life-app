@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
    Card,
@@ -7,6 +6,7 @@ import {
    CardHeader,
    CardTitle,
 } from '@/components/ui/card'
+import { useHover } from '@/hooks/use-hover'
 import useMedicine from '@/hooks/use-medicine'
 
 export interface MedicineDoseItemProps {
@@ -26,7 +26,7 @@ export default function MedicineDoseItem({
    totalDosePerDay,
    isToday,
 }: MedicineDoseItemProps) {
-   const [isHovering, setIsHovering] = useState(false)
+   const { isHovering, hoverHandlers } = useHover()
    const { addDoseToMedicine, removeLastDoseFromDay } = useMedicine()
    const hasDoses = totalDosePerDay > 0
 
@@ -51,8 +51,7 @@ export default function MedicineDoseItem({
                  ? 'ring-1 ring-primary/40'
                  : '',
          ].join(' ')}
-         onMouseEnter={() => setIsHovering(true)}
-         onMouseLeave={() => setIsHovering(false)}
+         {...hoverHandlers}
       >
          <CardHeader className="flex justify-center">
             <CardTitle className="font-bold">
