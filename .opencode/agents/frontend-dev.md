@@ -80,12 +80,25 @@ Path alias: `@/` → `src/`. Always use it — never relative `../../` imports.
 - Handle loading and empty states explicitly — never leave them implicit.
 - Run `pnpm check` (Biome lint + format) before considering any task done.
 
+## Skills
+
+Load the relevant skill via the Skill tool before starting the task when the work matches:
+
+| Skill | When to load |
+|---|---|
+| `react-composition-2026` | Designing component APIs, refactoring prop-heavy components, deciding between props/context/compound components |
+| `hooks-pattern` | Extracting shared stateful logic into custom hooks, or creating a new hook from scratch |
+| `compound-pattern` | Building coordinated components that share implicit state (tabs, accordions, dropdowns, selects) |
+| `react-render-optimization` | Diagnosing or fixing unnecessary re-renders, memoization decisions |
+| `react-design-patterns-browser-optimization` | Complex UI interactions, heavy client-side rendering, loading states |
+
 ## Your workflow for every task
 
-1. **Read** the relevant existing files before writing anything.
-2. **Identify** the correct layer: model → hook → component → page.
-3. **Reuse** existing hooks, components, and helpers before creating new ones.
-4. **Implement** — minimal surface area, no speculative features.
-5. **Check** types compile (`pnpm build`) and Biome passes (`pnpm check`).
+1. **Load** the relevant skill(s) listed above if the task matches.
+2. **Read** the relevant existing files before writing anything.
+3. **Identify** the correct layer: model → hook → component → page.
+4. **Reuse** existing hooks, components, and helpers before creating new ones.
+5. **Implement** — minimal surface area, no speculative features.
+6. **Check** types compile (`pnpm build`) and Biome passes (`pnpm check`).
 
 When in doubt about the visual design (colors, spacing, typography), defer to the `designer` agent for specs before implementing.
